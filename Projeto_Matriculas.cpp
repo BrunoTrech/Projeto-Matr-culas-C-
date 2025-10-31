@@ -1,6 +1,8 @@
 #include <iostream>
 using namespace std;
+#define  N 5
 
+int pos = 0;
 
 struct meuCurso{
     int codigoCurso;
@@ -37,14 +39,23 @@ void cadastrarCurso(meuCurso *c) {
     cin >> c->codigoCurso;
 }
 
-void listarCursos( string listarcursos ){
-    cout << "Codigo do curso: " << endl;
-    cout << "Nome do curso: " << endl;
-    cout << "Carga horaria do curso: " << endl;
-    cout << "Vagas do curso: " << endl;
+void listarCursos( meuCurso vet[]){
+    for(int i = 0; i<pos; i++){
 
+        cout << "Codigo do curso: " << endl;
+        cout << "Nome do curso: " << vet->nomeCurso << endl;
+        cout << "Carga horaria do curso: " << vet->cargaHoraria << endl;
+        cout << "Vagas do curso: " << vet->qntVagas << endl;
+    }
+        
 }
 
+void adicionarCurso(meuCurso vet[], meuCurso c){
+    if(pos < N)
+        vet[pos++] = c;
+    else
+        cout << "Lista cheia. Curso nao adicionado." << endl;
+}
 
 void mostrarMenu(){
     cout << "------------------ MOSTRAR MENU ------------------" << endl;
@@ -62,7 +73,7 @@ void mostrarMenu(){
 int main(){
     int opcao;
     meuCurso esteCurso;
-
+    meuCurso vetorCursos[N];
 
     mostrarMenu();
     cin >> opcao;
@@ -71,9 +82,12 @@ int main(){
         switch(opcao){
             case 1:
                 cadastrarCurso(&esteCurso);
+                adicionarCurso(vetorCursos, esteCurso);
                 break;
 
-
+            case 3:
+                listarCursos(vetorCursos);
+                break;
             default:
                 cout << "Opcao invalida. Digite novamente...";
                 break;
