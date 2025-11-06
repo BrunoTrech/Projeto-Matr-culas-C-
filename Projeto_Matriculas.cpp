@@ -2,7 +2,10 @@
 using namespace std;
 #define  N 5
 
+//guarda quantos cursos foram cadastrados e indica o próximo índice livre
 int pos = 0;
+//guarda quantos alunos foram cadastrados e indica o próximo índice livre
+int alu = 0;
 
 struct meuCurso{
     int codigoCurso;
@@ -39,23 +42,53 @@ void cadastrarCurso(meuCurso *c) {
     cin >> c->codigoCurso;
 }
 
-void listarCursos( meuCurso vet[]){
-    for(int i = 0; i<pos; i++){
+void listarAlunos(meuAluno vet[]){
+    if (alu == 0){
+        cout << "Nenhum aluno foi cadastrado.\n";
+        return;
+    }
+    for(int i = 0; i < alu; i ++){ //percorre só os alunos já cadastrados, sem acessar posições vazias
+        cout << "Nome: " << vet[i].nomeAluno << endl;
+        cout << "Idade: " << vet[i].idadeAluno<< endl;
+        cout << "Numero de matricula: " << vet[i].matriculaAluno << endl;
+        cout << endl;
+    }
+}
 
-        cout << "Codigo do curso: " << endl;
-        cout << "Nome do curso: " << vet->nomeCurso << endl;
-        cout << "Carga horaria do curso: " << vet->cargaHoraria << endl;
-        cout << "Vagas do curso: " << vet->qntVagas << endl;
+void listarCursos( meuCurso vet[]){
+    if (pos == 0) {
+    cout << "Nenhum curso cadastrado.\n";
+    return;
+    }
+    for(int i = 0; i<pos; i++){ //percorre só os cursos já cadastrados, sem acessar posições vazias
+
+        cout << "Codigo: " << vet[i].codigoCurso << endl;
+        cout << "Nome: " << vet[i].nomeCurso << endl;
+        cout << "Carga horaria: " << vet[i].cargaHoraria << endl;
+        cout << "Vagas: " << vet[i].qntVagas << endl;
+        cout << endl;
     }
         
 }
 
 void adicionarCurso(meuCurso vet[], meuCurso c){
     if(pos < N)
-        vet[pos++] = c;
+        vet[pos++] = c; //adiciona um curso e aumenta o contador automaticamente
     else
         cout << "Lista cheia. Curso nao adicionado." << endl;
 }
+
+bool codigoExiste(meuCurso vet[], int cod){
+    for(int i = 0; i < pos; i ++){
+        if(vet[i].codigoCurso == cod){
+            return true;
+        }
+
+        return false;
+    }
+
+
+} 
 
 void mostrarMenu(){
     cout << "------------------ MOSTRAR MENU ------------------" << endl;
@@ -74,6 +107,7 @@ int main(){
     int opcao;
     meuCurso esteCurso;
     meuCurso vetorCursos[N];
+    meuAluno esteAluno;
 
     mostrarMenu();
     cin >> opcao;
@@ -82,14 +116,26 @@ int main(){
         switch(opcao){
             case 1:
                 cadastrarCurso(&esteCurso);
-                adicionarCurso(vetorCursos, esteCurso);
-                break;
 
+                if(codigoExiste(vetorCursos, esteCurso.codigoCurso)){
+                    cout << "Esse codigo de curso ja esta cadastrado..." << endl;
+                }   else{
+
+                    adicionarCurso(vetorCursos, esteCurso);
+                    cout << endl;
+                    cout << "Curso cadastrado com sucesso!" << endl;
+                    cout << endl;
+                }
+                break;
+            case 2:
+                cadastrarAluno(&esteAluno);
             case 3:
                 listarCursos(vetorCursos);
                 break;
             default:
+                cout << endl;
                 cout << "Opcao invalida. Digite novamente...";
+                cout << endl;
                 break;
         }
         mostrarMenu();
