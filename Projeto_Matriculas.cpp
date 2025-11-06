@@ -18,16 +18,38 @@ struct meuAluno{
     int matriculaAluno;
     string nomeAluno;
     int idadeAluno;
+    int codigoCurso;
 };
 
-void cadastrarAluno(meuAluno *a) {
+void cadastrarAluno(meuAluno *a, meuCurso vetCursos[], int totalCursos) {
     cout << "Digite o nome: ";
     cin.ignore();
     getline(cin, a->nomeAluno);
+
     cout << "Digite a matricula: ";
     cin >> a->matriculaAluno;
-    cout << "Digite a idade: ";
-    cin >> a->idadeAluno;
+
+    int cod;
+    cout << "Digite o codigo do curso em que o aluno sera matriculado: ";
+    cin >> cod;
+    
+    bool encontrado = false;
+    for(int i = 0; i < totalCursos; i ++){
+        if (vetCursos[i].codigoCurso == cod){
+            encontrado = true;
+            break;
+        }
+    }
+
+    if(encontrado){
+        a->codigoCurso = cod;
+        cout << "Aluno matriculado no curso de codigo " << cod << " com sucesso!" << endl;
+
+    } else{
+        cout << "Curso nao encontrado! Aluno nao cadastrado.";
+        a->codigoCurso = -1;
+    }
+    
 }
 
 void cadastrarCurso(meuCurso *c) {
@@ -128,7 +150,7 @@ int main(){
                 }
                 break;
             case 2:
-                cadastrarAluno(&esteAluno);
+                cadastrarAluno();
             case 3:
                 listarCursos(vetorCursos);
                 break;
