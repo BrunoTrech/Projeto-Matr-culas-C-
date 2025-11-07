@@ -4,7 +4,7 @@ using namespace std;
 
 //guarda quantos cursos foram cadastrados e indica o próximo índice livre
 int pos = 0;
-//guarda quantos alunos foram cadastrados e indica o próximo índice livre
+
 int alu = 0;
 
 struct meuCurso{
@@ -168,3 +168,4 @@ int main(){
 
     return 0;
 }
+
