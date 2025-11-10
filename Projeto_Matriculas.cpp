@@ -4,7 +4,7 @@ using namespace std;
 
 //guarda quantos cursos foram cadastrados e indica o próximo índice livre
 int pos = 0;
-
+//guarda quantos alunos foram cadastrados e indica o próximo índice livre
 int alu = 0;
 
 struct meuCurso{
@@ -64,17 +64,29 @@ void cadastrarCurso(meuCurso *c) {
     cin >> c->codigoCurso;
 }
 
-void listarAlunos(meuAluno vet[]){
+void listarAlunos(meuAluno vetA[], meuCurso vetC[], int totalA, int totalC){
     if (alu == 0){
         cout << "Nenhum aluno foi cadastrado.\n";
         return;
     }
     for(int i = 0; i < alu; i ++){ //percorre só os alunos já cadastrados, sem acessar posições vazias
-        cout << "Nome: " << vet[i].nomeAluno << endl;
-        cout << "Idade: " << vet[i].idadeAluno<< endl;
-        cout << "Numero de matricula: " << vet[i].matriculaAluno << endl;
+        cout << "Nome: " << vetA[i].nomeAluno << endl;
+        cout << "Idade: " << vetA[i].idadeAluno<< endl;
+        cout << "Numero de matricula: " << vetA[i].matriculaAluno << endl;
         cout << endl;
+        
+        // Encontra o curso do aluo
+        string nomeCurso = "Nao encontrado";
+        for(int j = 0; j < totalC; j++){
+                if (vetA[i].codigoCurso == vetC[j].codigoCurso)
+                   nomeCurso = vetC[j].nomeCurso;
+        }
+
+        cout << "Curso: " << nomeCurso << endl;
+    
+    
     }
+
 }
 
 void listarCursos( meuCurso vet[]){
@@ -82,8 +94,8 @@ void listarCursos( meuCurso vet[]){
     cout << "Nenhum curso cadastrado.\n";
     return;
     }
-    for(int i = 0; i<pos; i++){ //percorre só os cursos já cadastrados, sem acessar posições vazias
-
+    for(int i = 0; i<pos; i++){ //percorre só os cursos já cadastrados, sem acessar asd posições vazias
+        cout << endl;
         cout << "Codigo: " << vet[i].codigoCurso << endl;
         cout << "Nome: " << vet[i].nomeCurso << endl;
         cout << "Carga horaria: " << vet[i].cargaHoraria << endl;
@@ -105,9 +117,9 @@ bool codigoExiste(meuCurso vet[], int cod){
         if(vet[i].codigoCurso == cod){
             return true;
         }
-
-        return false;
+        
     }
+        return false;
 
 
 } 
@@ -130,6 +142,7 @@ int main(){
     meuCurso esteCurso;
     meuCurso vetorCursos[N];
     meuAluno esteAluno;
+    meuAluno vetorAlunos[N];
 
     mostrarMenu();
     cin >> opcao;
@@ -150,15 +163,27 @@ int main(){
                 }
                 break;
             case 2:
-                cadastrarAluno();
+               if (pos == 0){
+                    cout << "Nenhum curso cadastrado. Cadastre um curso primeiro.\n";
+                }   else if(alu < N){
+                        cadastrarAluno(&vetorAlunos[alu], vetorCursos, pos);
+                        alu++;
+                }   else{
+                    cout << "Limite de alunos atingido.\n";
+                }
+                    
             case 3:
                 listarCursos(vetorCursos);
                 break;
+            case 4:
+                listarAlunos(vetorAlunos, vetorCursos, alu, pos);
+                break;    
             default:
                 cout << endl;
                 cout << "Opcao invalida. Digite novamente...";
                 cout << endl;
                 break;
+
         }
         mostrarMenu();
         cin >> opcao;
@@ -168,4 +193,3 @@ int main(){
 
     return 0;
 }
-
