@@ -110,7 +110,7 @@ void listarCursos( meuCurso vet[]){
 
 void adicionarCurso(meuCurso vet[], meuCurso c){
     if(pos < N)
-        vet[pos++] = c; //adiciona um curso e aumenta o contador automaticamente
+        vet[pos++] = c; //adiciona um curso e aumenta o cotador automaticamente
     else
         cout << "Lista cheia. Curso nao adicionado." << endl;
 }
@@ -136,6 +136,7 @@ void buscarAlunos (meuAluno vetAlunos[], int totalAlunos){
     
     for(int i = 0; i < totalAlunos; i ++){
         if(vetAlunos[i].codigoCurso == cod){
+            encontrou = true;
             cout << "Nome: " << vetAlunos[i].nomeAluno << endl;
             cout << "Matricula: " << vetAlunos[i].matriculaAluno << endl;
             cout << "Idade: " << vetAlunos[i].idadeAluno << endl;
@@ -159,6 +160,31 @@ void mostrarMenu(){
     cout << "7 - para sair" << endl;
 }
 
+void relatorioGeral(meuCurso vetCursos[], int totalCursos, meuAluno vetAlunos[], int totalAlunos) {
+    if (totalCursos == 0) {
+        cout << "Nenhum curso cadastrado.\n";
+        return;
+    }
+
+    cout << "\n--- RELATORIO GERAL ---\n";
+
+    for (int i = 0; i < totalCursos; i++) {
+        int contador = 0; 
+
+        // percorre todos os aluos e conta os que estão esse curso
+        for (int j = 0; j < totalAlunos; j++) {
+            if (vetAlunos[j].codigoCurso == vetCursos[i].codigoCurso) {
+                contador++;
+            }
+        }
+
+        cout << "Curso: " << vetCursos[i].nomeCurso << endl;
+        cout << "Codigo: " << vetCursos[i].codigoCurso << endl;
+        cout << "Alunos matriculados: " << contador << endl;
+        cout << "-----------------------------\n";
+    }
+}
+
 
 
 int main(){
@@ -167,7 +193,6 @@ int main(){
     meuCurso vetorCursos[N];
     meuAluno esteAluno;
     meuAluno vetorAlunos[N];
-    int totalAlunos;
 
     mostrarMenu();
     cin >> opcao;
@@ -196,7 +221,7 @@ int main(){
                 }   else{
                     cout << "Limite de alunos atingido.\n";
                 }
-                    
+                break;  
             case 3:
                 listarCursos(vetorCursos);
                 break;
@@ -204,7 +229,10 @@ int main(){
                 listarAlunos(vetorAlunos, vetorCursos, alu, pos);
                 break;  
             case 5:
-                buscarAlunos(vetorAlunos, totalAlunos);
+                buscarAlunos(vetorAlunos, alu);
+                break;
+            case 6:
+                relatorioGeral(vetorCursos, pos, vetorAlunos, alu);
                 break;
             default:
                 cout << endl;
