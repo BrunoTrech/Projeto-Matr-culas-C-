@@ -1,6 +1,6 @@
 #include <iostream>
 using namespace std;
-#define  N 5
+#define  N 50
 
 //guarda quantos cursos foram cadastrados e indica o próximo índice livre
 int pos = 0;
@@ -25,6 +25,9 @@ void cadastrarAluno(meuAluno *a, meuCurso vetCursos[], int totalCursos) {
     cout << "Digite o nome: ";
     cin.ignore();
     getline(cin, a->nomeAluno);
+
+    cout << "Digite a idade: ";
+    cin >> a->idadeAluno;
 
     cout << "Digite a matricula: ";
     cin >> a->matriculaAluno;
@@ -73,16 +76,16 @@ void listarAlunos(meuAluno vetA[], meuCurso vetC[], int totalA, int totalC){
         cout << "Nome: " << vetA[i].nomeAluno << endl;
         cout << "Idade: " << vetA[i].idadeAluno<< endl;
         cout << "Numero de matricula: " << vetA[i].matriculaAluno << endl;
-        cout << endl;
         
         // Encontra o curso do aluo
         string nomeCurso = "Nao encontrado";
-        for(int j = 0; j < totalC; j++){
+        for(int j = 0; j <= totalC; j++){
                 if (vetA[i].codigoCurso == vetC[j].codigoCurso)
                    nomeCurso = vetC[j].nomeCurso;
         }
 
         cout << "Curso: " << nomeCurso << endl;
+        cout << endl;
     
     
     }
@@ -124,6 +127,27 @@ bool codigoExiste(meuCurso vet[], int cod){
 
 } 
 
+void buscarAlunos (meuAluno vetAlunos[], int totalAlunos){
+    int cod;
+    cout << "Digite o codigo do curso: ";
+    cin >> cod;
+
+    bool encontrou = false;
+    
+    for(int i = 0; i < totalAlunos; i ++){
+        if(vetAlunos[i].codigoCurso == cod){
+            cout << "Nome: " << vetAlunos[i].nomeAluno << endl;
+            cout << "Matricula: " << vetAlunos[i].matriculaAluno << endl;
+            cout << "Idade: " << vetAlunos[i].idadeAluno << endl;
+            cout << endl;
+        }
+    }
+    
+    if(!encontrou){
+        cout << "Nenhum aluno encontrado para esse curso..." << endl;
+    }
+}
+    
 void mostrarMenu(){
     cout << "------------------ MOSTRAR MENU ------------------" << endl;
     cout << "1 - para cadastrar curso" << endl;
@@ -143,6 +167,7 @@ int main(){
     meuCurso vetorCursos[N];
     meuAluno esteAluno;
     meuAluno vetorAlunos[N];
+    int totalAlunos;
 
     mostrarMenu();
     cin >> opcao;
@@ -177,7 +202,10 @@ int main(){
                 break;
             case 4:
                 listarAlunos(vetorAlunos, vetorCursos, alu, pos);
-                break;    
+                break;  
+            case 5:
+                buscarAlunos(vetorAlunos, totalAlunos);
+                break;
             default:
                 cout << endl;
                 cout << "Opcao invalida. Digite novamente...";
